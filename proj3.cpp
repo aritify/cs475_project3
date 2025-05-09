@@ -23,7 +23,7 @@
 // how many tries to discover the maximum performance:
 #define NUMTRIES	30
 
-//#define CSV
+#define CSV
 
 struct city
 {
@@ -116,6 +116,7 @@ main( int argc, char *argv[ ] )
 				if( dist < mindistance )
 				{
 					mindistance = dist; // mindistance = dist; - set the mindistance to the calculated dist for comparing the distance of other capitals
+					Cities[i].mindistance = mindistance;
 					capitalnumber = k; // set local capital number as k (index of capital)
 					Cities[i].capitalnumber = capitalnumber; // set the city's capital to be the closest capital by distance
 				}
@@ -136,8 +137,8 @@ main( int argc, char *argv[ ] )
 		// get the average longitude and latitude for each capital:
 		for( int k = 0; k < NUMCAPITALS; k++ )
 		{
-			Capitals[k].longitude = Capitals[k].longsum / Capitals->numsum;	// average the longitude sum and the number of citites
-			Capitals[k].latitude  = Capitals[k].latsum / Capitals->numsum;	// average the latitude sum and the number of citites
+			Capitals[k].longitude = (float)Capitals[k].longsum / (int)Capitals->numsum;	// average the longitude sum and the number of citites
+			Capitals[k].latitude  = (float)Capitals[k].latsum / (int)Capitals->numsum;	// average the latitude sum and the number of citites
 		}
 	}
 
