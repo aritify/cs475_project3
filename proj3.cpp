@@ -23,7 +23,7 @@
 // how many tries to discover the maximum performance:
 #define NUMTRIES	30
 
-#define CSV
+//#define CSV
 
 struct city
 {
@@ -100,10 +100,11 @@ main( int argc, char *argv[ ] )
 			Capitals[k].latsum  = 0.;
 			Capitals[k].numsum = 0;
 		}
-
+		
 		time0 = omp_get_wtime( );
 
         	// the #pragma goes here -- you figure out what it needs to look like:
+		#pragma omp parallel for
 		for( int i = 0; i < NUMCITIES; i++ )
 		{
 			int capitalnumber = -1;
@@ -114,9 +115,9 @@ main( int argc, char *argv[ ] )
 				float dist = Distance( i, k );
 				if( dist < mindistance )
 				{
-					?????
-					?????
-					?????
+					mindistance = dist; // mindistance = dist; - set the mindistance to the calculated dist for comparing the distance of other capitals
+					capitalnumber = k; // set local capital number as k (index of capital)
+					Cities[i].capitalnumber = capitalnumber; // set the city's capital to be the closest capital by distance
 				}
 			}
 
@@ -135,8 +136,8 @@ main( int argc, char *argv[ ] )
 		// get the average longitude and latitude for each capital:
 		for( int k = 0; k < NUMCAPITALS; k++ )
 		{
-			Capitals[k].longitude = ?????
-			Capitals[k].latitude  = ?????
+			Capitals[k].longitude = Capitals[k].longsum / Capitals->numsum;	// average the longitude sum and the number of citites
+			Capitals[k].latitude  = Capitals[k].latsum / Capitals->numsum;	// average the latitude sum and the number of citites
 		}
 	}
 
@@ -145,10 +146,10 @@ main( int argc, char *argv[ ] )
 
 	// figure out what actual city is closest to each capital:
 	// this is the extra credit:
-	for( int k = 0; k < NUMCAPITALS; k++ )
+	/*for( int k = 0; k < NUMCAPITALS; k++ )
 	{
 		?????
-	}
+	}*/
 
 
 	// print the longitude-latitude of each new capital city:
